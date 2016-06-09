@@ -394,6 +394,7 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
         initialLayer = self.lineLayer.presentationLayer;
     }
     
+    verticalAnimation.delegate = self;
     verticalAnimation.values = @[@(initialLayer.position.y),@(finalPosition)];
     verticalAnimation.duration = self.fillDuration*fillDifference;
     verticalAnimation.autoreverses = self.fillAutoReverse;
@@ -402,6 +403,12 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     verticalAnimation.fillMode = kCAFillModeForwards;
     [self.lineLayer addAnimation:verticalAnimation forKey:@"verticalAnimation"];
     self.initialFill = NO;
+}
+
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag {
+    if (_animationDidStop != Nil) {
+        _animationDidStop();
+    }
 }
 
 #pragma mark - Private
